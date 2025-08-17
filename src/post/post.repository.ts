@@ -7,7 +7,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from './dto/createPost.dto';
 import { PostListQueryDto } from './dto/postList.dto';
-import { Post } from 'generated/prisma';
+import { Post } from '@prisma/client';
 
 @Injectable()
 export class PostRepository {
