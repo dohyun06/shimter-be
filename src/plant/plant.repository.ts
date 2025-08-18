@@ -14,13 +14,11 @@ export class PlantRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createPlant(): Promise<PlantIdDto> {
-    console.log('create');
     return await this.prisma.plant
       .create({
         data: {},
       })
       .catch((error) => {
-        console.log(error);
         if (error instanceof PrismaClientKnownRequestError) {
           throw new InternalServerErrorException('Database Error');
         }
