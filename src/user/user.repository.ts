@@ -42,7 +42,7 @@ export class UserRepository {
       .catch((error) => {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === 'P2025')
-            throw new NotFoundException('User id is not found');
+            throw new NotFoundException('User email is not found');
           throw new InternalServerErrorException('Database error');
         }
         throw new InternalServerErrorException('Internal server error');

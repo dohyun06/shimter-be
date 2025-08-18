@@ -10,7 +10,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { UserDto, UserIdDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import { LoginDto } from './dto/login.dto';
-import { TokenDto } from './token.dto';
+import { TokenDto } from './dto/token.dto';
 
 @Controller('user')
 export class UserController {

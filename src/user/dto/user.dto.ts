@@ -11,7 +11,7 @@ export class UserDto {
   readonly name: string;
 
   @IsString()
-  @ApiProperty({ example: 'abcde@gm.gist.ac.kr' })
+  @ApiProperty({ example: 'abcde@gmail.com' })
   readonly email: string;
 
   @IsString()

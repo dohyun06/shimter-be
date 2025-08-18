@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { UserDto, UserIdDto } from './dto/user.dto';
 import { UserRepository } from './user.repository';
 import { LoginDto } from './dto/login.dto';
-import { TokenDto } from './token.dto';
+import { TokenDto } from './dto/token.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -22,7 +22,7 @@ export class UserService {
   }
 
   async login({ email, password }: LoginDto): Promise<TokenDto> {
-    const user = await this.userRepository.findUser(email);
+    const user = await this.userRepository.login(email);
 
     if (!(await bcrypt.compare(password, user.password)))
       throw new UnauthorizedException('Password is failed');
