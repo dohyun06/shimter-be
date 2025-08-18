@@ -13,11 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Overcome {
+  TRUE
+  FALSE
+}
+
 model Post {
   id              String @id @default(uuid())
   title           String
   content         String 
   createdAt       DateTime @default(now())
+  imageUrl       String?
 }
 
 model User {
@@ -27,4 +33,28 @@ model User {
   password      String
   phoneNumber   String
   deviceId      String
+}
+
+model Plant {
+  id             String @id @default(uuid())
+  logs           Log[]
+  diseaseLogs    DiseaseLog[]
+}
+model DiseaseLog {
+  id             String @id @default(uuid())
+  disease       String
+  description       String
+  createdAt       DateTime @default(now()) 
+  overcome      Overcome @default(FALSE)
+
+  plant  Plant @relation(fields: [plantId], references: [id])
+  plantId String
+}
+
+model Log {
+  id            String @id @default(uuid())
+  description String
+  createdAt   DateTime @default(now())
+  plant  Plant @relation(fields: [plantId], references: [id])
+  plantId String
 }
