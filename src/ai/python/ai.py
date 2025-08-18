@@ -2,10 +2,14 @@ import sys
 import json
 import tensorflow as tf
 import numpy as np
+import os
+
+script_dir = os.path.dirname(__file__) 
+
 
 IMG_SIZE = 224
-MODEL_STEP1_PATH = '../model/step1.h5'
-MODEL_STEP2_PATH = '../model/step2.h5'
+MODEL_STEP1_PATH = os.path.join(script_dir, '../model/step1.h5')
+MODEL_STEP2_PATH = os.path.join(script_dir, '../model/step2.h5')
 
 CLASS_NAMES_STEP1 = ['abnormal', 'normal'] 
 CLASS_NAMES_STEP2 = ['disease_intonsa', 'disease_latus', 'disease_powdery', 'temp-humid', 'unripe']

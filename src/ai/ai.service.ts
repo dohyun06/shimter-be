@@ -24,7 +24,10 @@ export class AiService {
 
       return await new Promise((resolve, reject) => {
         const pythonScriptPath = path.resolve(__dirname, './python/ai.py');
-        const pythonProcess = spawn('python', [pythonScriptPath, tempFilePath]);
+        const pythonProcess = spawn('python3', [
+          pythonScriptPath,
+          tempFilePath,
+        ]);
 
         let result = '';
         let errorResult = '';

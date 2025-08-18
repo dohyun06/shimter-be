@@ -15,13 +15,13 @@ export class AiController {
 
   @Post()
   @ApiOperation({
-    summary: 'Create Post',
-    description: 'Create post',
+    summary: 'Ai prediction',
+    description: 'Ai prediction about image',
   })
   @ApiBody({ type: ImageUrlDto })
   @ApiOkResponse({
     type: 'any',
-    description: 'Return information of a created post',
+    description: 'Return ai prediction',
   })
   @ApiNotFoundResponse({ description: 'image is not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
