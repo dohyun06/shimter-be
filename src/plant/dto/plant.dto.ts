@@ -1,24 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsObject, IsString } from 'class-validator';
-import { LogDto } from 'src/plant/dto/log.dto';
-
-class DiseaseLogDto {
-  @IsString()
-  @ApiProperty({ example: 'powdery' })
-  readonly disease: string;
-
-  @IsString()
-  @ApiProperty({ example: 'description' })
-  readonly description: string;
-
-  @IsString()
-  @ApiProperty({ example: '2000-01-01' })
-  readonly createdAt: Date;
-
-  @IsBoolean()
-  @ApiProperty({ example: true })
-  readonly overcome: boolean;
-}
+import { DiseaseLogDto, LogDto } from 'src/plant/dto/log.dto';
 
 export class PlantDto {
   @IsString()

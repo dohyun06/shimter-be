@@ -5,8 +5,9 @@ import {
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Log } from '@prisma/client';
+import { DiseaseLog, Log } from '@prisma/client';
 import { PlantDto, PlantIdDto } from './dto/plant.dto';
+import { CreateDiseaseLogDto } from './dto/log.dto';
 
 @Injectable()
 export class PlantRepository {
@@ -52,6 +53,26 @@ export class PlantRepository {
       .create({
         data: {
           description: description,
+          plantId: id,
+        },
+      })
+      .catch((error) => {
+        if (error instanceof PrismaClientKnownRequestError) {
+          throw new InternalServerErrorException('Database Error');
+        }
+        throw new InternalServerErrorException('Internal Server Error');
+      });
+  }
+
+  async createDiseaseLog(
+    id: string,
+    dto: CreateDiseaseLogDto,
+  ): Promise<DiseaseLog> {
+    return await this.prisma.diseaseLog
+      .create({
+        data: {
+          description: dto.description,
+          disease: dto.disease,
           plantId: id,
         },
       })

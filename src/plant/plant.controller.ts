@@ -10,7 +10,11 @@ import {
 } from '@nestjs/swagger';
 import { PlantDto, PlantIdDto } from './dto/plant.dto';
 import { PlantService } from './plant.service';
-import { CreateLogDto, LogDto } from 'src/plant/dto/log.dto';
+import {
+  CreateDiseaseLogDto,
+  CreateLogDto,
+  LogDto,
+} from 'src/plant/dto/log.dto';
 
 @Controller('plant')
 export class PlantController {
@@ -62,5 +66,24 @@ export class PlantController {
     @Body() dto: CreateLogDto,
   ): Promise<PlantDto> {
     return await this.plantService.createLog(id, dto);
+  }
+
+  @Post(':id')
+  @ApiOperation({
+    summary: 'Add disease log',
+    description: 'Add log',
+  })
+  @ApiBody({ type: LogDto })
+  @ApiOkResponse({
+    type: PlantDto,
+  })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized Exception' })
+  @ApiNotFoundResponse({ description: 'Plant id is not found' })
+  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+  async createDiseaseLog(
+    @Param() { id }: PlantIdDto,
+    @Body() dto: CreateDiseaseLogDto,
+  ): Promise<PlantDto> {
+    return await this.plantService.createDiseaseLog(id, dto);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PlantDto, PlantIdDto } from './dto/plant.dto';
 import { PlantRepository } from './plant.repository';
-import { CreateLogDto } from 'src/plant/dto/log.dto';
+import { CreateDiseaseLogDto, CreateLogDto } from 'src/plant/dto/log.dto';
 
 @Injectable()
 export class PlantService {
@@ -20,6 +20,14 @@ export class PlantService {
     { description }: CreateLogDto,
   ): Promise<PlantDto> {
     await this.plantRepository.createLog(id, description);
+    return await this.getPlant(id);
+  }
+
+  async createDiseaseLog(
+    id: string,
+    dto: CreateDiseaseLogDto,
+  ): Promise<PlantDto> {
+    await this.plantRepository.createDiseaseLog(id, dto);
     return await this.getPlant(id);
   }
 }
