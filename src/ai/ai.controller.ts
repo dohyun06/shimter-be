@@ -8,6 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { ImageUrlDto } from './dto/imageUrl.dto';
 import { AiService } from './ai.service';
+import { ResultDto } from './dto/result.dto';
 
 @Controller('ai')
 export class AiController {
@@ -25,7 +26,7 @@ export class AiController {
   })
   @ApiNotFoundResponse({ description: 'image is not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
-  async getAiResult(@Body() imageUrl: ImageUrlDto): Promise<any> {
+  async getAiResult(@Body() imageUrl: ImageUrlDto): Promise<ResultDto> {
     return await this.aiService.getAiResult(imageUrl);
   }
 }

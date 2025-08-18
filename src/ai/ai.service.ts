@@ -5,10 +5,11 @@ import { spawn } from 'child_process';
 import * as fs from 'fs';
 import { v4 } from 'uuid';
 import axios from 'axios';
+import { ResultDto } from './dto/result.dto';
 
 @Injectable()
 export class AiService {
-  async getAiResult({ url }: ImageUrlDto): Promise<any> {
+  async getAiResult({ url }: ImageUrlDto): Promise<ResultDto> {
     let tempFilePath: string = '';
     try {
       const response = await axios.get(url, {
