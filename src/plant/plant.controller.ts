@@ -10,7 +10,7 @@ import {
 } from '@nestjs/swagger';
 import { PlantDto, PlantIdDto } from './dto/plant.dto';
 import { PlantService } from './plant.service';
-import { CreateLogDto, LogDto } from 'src/post/dto/log.dto';
+import { CreateLogDto, LogDto } from 'src/plant/dto/log.dto';
 
 @Controller('plant')
 export class PlantController {

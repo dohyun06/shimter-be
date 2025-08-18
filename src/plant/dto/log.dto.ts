@@ -15,8 +15,4 @@ export class CreateLogDto {
   @IsString()
   @ApiProperty({ example: 'description' })
   readonly description: string;
-
-  @IsString()
-  @ApiProperty({ example: '2000-01-01' })
-  readonly createdAt: Date;
 }

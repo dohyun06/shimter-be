@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Overcome } from '@prisma/client';
 import { IsObject, IsString } from 'class-validator';
-import { LogDto } from 'src/post/dto/log.dto';
+import { LogDto } from 'src/plant/dto/log.dto';
 
 class DiseaseLogDto {
   @IsString()

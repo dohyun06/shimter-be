@@ -13,12 +13,18 @@ export class PlantRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createPlant(): Promise<PlantIdDto> {
-    return await this.prisma.plant.create({}).catch((error) => {
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new InternalServerErrorException('Database Error');
-      }
-      throw new InternalServerErrorException('Internal Server Error');
-    });
+    console.log('create');
+    return await this.prisma.plant
+      .create({
+        data: {},
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error instanceof PrismaClientKnownRequestError) {
+          throw new InternalServerErrorException('Database Error');
+        }
+        throw new InternalServerErrorException('Internal Server Error');
+      });
   }
 
   async getPlant(id: string): Promise<PlantDto> {
