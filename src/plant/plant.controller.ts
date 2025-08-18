@@ -68,7 +68,7 @@ export class PlantController {
     return await this.plantService.createLog(id, dto);
   }
 
-  @Post(':id')
+  @Post('disease/:id')
   @ApiOperation({
     summary: 'Add disease log',
     description: 'Add log',
