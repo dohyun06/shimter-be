@@ -54,7 +54,7 @@ export class PlantController {
     summary: 'Add log',
     description: 'Add log',
   })
-  @ApiBody({ type: LogDto })
+  @ApiBody({ type: CreateLogDto })
   @ApiOkResponse({
     type: PlantDto,
   })
@@ -73,7 +73,7 @@ export class PlantController {
     summary: 'Add disease log',
     description: 'Add log',
   })
-  @ApiBody({ type: LogDto })
+  @ApiBody({ type: CreateDiseaseLogDto })
   @ApiOkResponse({
     type: PlantDto,
   })
