@@ -1,11 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class UserDto {
-  @IsString()
-  @ApiProperty({ example: '2d87779b-7632-4163-afa0-5062d83e325b' })
-  readonly id: string;
-
+export class CreateUserDto {
   @IsString()
   @ApiProperty({ example: '홍길동' })
   readonly name: string;
@@ -25,10 +21,4 @@ export class UserDto {
   @IsString()
   @ApiProperty({ example: 'AA-100' })
   readonly deviceId: string;
-}
-
-export class UserIdDto {
-  @IsString()
-  @ApiProperty({ example: '2d87779b-7632-4163-afa0-5062d83e325b' })
-  readonly id: string;
 }
