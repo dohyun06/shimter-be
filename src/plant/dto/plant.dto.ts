@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Overcome } from '@prisma/client';
-import { IsObject, IsString } from 'class-validator';
+import { IsBoolean, IsObject, IsString } from 'class-validator';
 import { LogDto } from 'src/plant/dto/log.dto';
 
 class DiseaseLogDto {
@@ -16,9 +15,9 @@ class DiseaseLogDto {
   @ApiProperty({ example: '2000-01-01' })
   readonly createdAt: Date;
 
-  @IsString()
-  @ApiProperty({ example: 'TRUE' })
-  readonly overcome: Overcome;
+  @IsBoolean()
+  @ApiProperty({ example: true })
+  readonly overcome: boolean;
 }
 
 export class PlantDto {
