@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsString, IsUrl } from 'class-validator';
 
 export class ImageUrlDto {
-  @IsString()
+  @IsUrl()
   @ApiProperty({ example: 'https://.../image.jpg' })
   readonly url: string;
 }
