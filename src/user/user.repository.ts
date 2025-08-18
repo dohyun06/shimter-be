@@ -5,9 +5,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Post, Prisma, User } from '@prisma/client';
-import { UserDto } from './dto/user.dto';
+import { Prisma, User } from '@prisma/client';
 import { CreateUserDto } from './dto/createUser.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserRepository {
@@ -20,7 +20,7 @@ export class UserRepository {
         data: {
           name: user.name,
           email: user.email,
-          password: user.password,
+          password: await bcrypt.hash(user.password, 10),
           phoneNumber: user.phoneNumber,
           deviceId: user.deviceId,
         },
