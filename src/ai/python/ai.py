@@ -1,9 +1,7 @@
 import sys
 import json
 import tensorflow as tf
-from PIL import Image
 import numpy as np
-import os
 
 # --- 설정값 ---
 IMG_SIZE = 224
