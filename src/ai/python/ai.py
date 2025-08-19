@@ -21,7 +21,8 @@ def preprocess_image(image_path):
     return np.expand_dims(preprocessed_array, axis=0)
 
 def run_prediction(model_path, class_names, image_tensor):
-    model = tf.keras.models.load_model(model_path)
+    with tf.keras.utils.custom_object_scope({'TFOpLambda': tf.keras.layers.Lambda}):
+        model = tf.keras.models.load_model(model_path, compile=False)
     predictions = model.predict(image_tensor)
     scores = predictions[0]
     predicted_index = np.argmax(scores)
@@ -35,11 +36,8 @@ def run_prediction(model_path, class_names, image_tensor):
     }
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print(json.dumps({'error': '이미지 경로가 필요합니다.'}), file=sys.stderr)
-        sys.exit(1)
-    
-    image_file_path = sys.argv[1]
+
+    image_file_path = r'C:\\Users\\Dohyun Kim\\Documents\\Develop\\shimter-be\\src\\ai\\img\\test.jpg'
 
     try:
         image_tensor = preprocess_image(image_file_path)
