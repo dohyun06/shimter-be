@@ -6,10 +6,9 @@ import os
 
 script_dir = os.path.dirname(__file__) 
 
-
 IMG_SIZE = 224
-MODEL_STEP1_PATH = os.path.join(script_dir, '../model/step1.h5')
-MODEL_STEP2_PATH = os.path.join(script_dir, '../model/step2.h5')
+MODEL_STEP1_PATH = os.path.join(script_dir, '../model/step1.keras')
+MODEL_STEP2_PATH = os.path.join(script_dir, '../model/step2.keras')
 
 CLASS_NAMES_STEP1 = ['abnormal', 'normal'] 
 CLASS_NAMES_STEP2 = ['disease_intonsa', 'disease_latus', 'disease_powdery', 'temp-humid', 'unripe']
@@ -21,9 +20,8 @@ def preprocess_image(image_path):
     return np.expand_dims(preprocessed_array, axis=0)
 
 def run_prediction(model_path, class_names, image_tensor):
-    with tf.keras.utils.custom_object_scope({'TFOpLambda': tf.keras.layers.Lambda}):
-        model = tf.keras.models.load_model(model_path, compile=False)
-    predictions = model.predict(image_tensor)
+    model = tf.keras.models.load_model(model_path)
+    predictions = model.predict(image_tensor, verbose=0)
     scores = predictions[0]
     predicted_index = np.argmax(scores)
     predicted_class = class_names[predicted_index]
@@ -36,8 +34,11 @@ def run_prediction(model_path, class_names, image_tensor):
     }
 
 if __name__ == '__main__':
-
-    image_file_path = r'C:\\Users\\Dohyun Kim\\Documents\\Develop\\shimter-be\\src\\ai\\img\\test.jpg'
+    if len(sys.argv) < 2:
+        print(json.dumps({'error': '이미지 경로가 필요합니다.'}), file=sys.stderr)
+        sys.exit(1)
+    
+    image_file_path = sys.argv[1]
 
     try:
         image_tensor = preprocess_image(image_file_path)
