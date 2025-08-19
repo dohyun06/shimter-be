@@ -1,6 +1,3 @@
-# =================================================================
-# 1단계: 빌더(Builder) 스테이지 - (기존과 동일)
-# =================================================================
 FROM alpine/git:latest AS builder
 WORKDIR /app
 RUN apk add --no-cache git-lfs
@@ -8,14 +5,7 @@ RUN git lfs install
 COPY . .
 RUN git lfs pull
 
-# =================================================================
-# 2단계: 최종(Final) 스테이지
-# =================================================================
-# ★★★ 변경점 1: 베이스 이미지를 python:3.11.9-slim-bookworm 으로 변경 ★★★
 FROM python:3.11.9-slim-bookworm
-
-# ★★★ 변경점 2: Node.js와 npm을 수동으로 설치 ★★★
-# NodeSource 저장소를 사용하여 Node.js 22.x 버전을 설치합니다.
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ca-certificates curl gnupg && \
     mkdir -p /etc/apt/keyrings && \
@@ -25,15 +15,11 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
-
 WORKDIR /usr/src/app
 
-# 이제부터는 기존과 거의 동일합니다.
 COPY package*.json ./
 RUN npm install
-
 COPY requirements.txt ./
-# --break-system-packages 옵션은 더 이상 필요 없을 수 있습니다.
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --from=builder /app .
