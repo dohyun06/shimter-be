@@ -45,4 +45,9 @@ export class PlantService {
     await this.plantRepository.createDiseaseLog(id, dto);
     return await this.getPlant(id);
   }
+
+  async changeStatus(id: string): Promise<PlantDto> {
+    await this.plantRepository.changeStatus(id);
+    return await this.getPlant(id);
+  }
 }

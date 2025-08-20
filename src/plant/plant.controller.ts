@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import {
   ApiBody,
   ApiInternalServerErrorResponse,
@@ -97,5 +105,21 @@ export class PlantController {
     @Body() dto: CreateDiseaseLogDto,
   ): Promise<PlantDto> {
     return await this.plantService.createDiseaseLog(id, dto);
+  }
+
+  @Patch('disease/:id')
+  @ApiOperation({
+    summary: 'Change status',
+    description:
+      'Change status of disease log. id is diseaseLog id, not plant id',
+  })
+  @ApiOkResponse({
+    type: PlantDto,
+  })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized Exception' })
+  @ApiNotFoundResponse({ description: 'Log id is not found' })
+  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+  async changeStatus(@Param() { id }: PlantIdDto): Promise<PlantDto> {
+    return await this.plantService.changeStatus(id);
   }
 }

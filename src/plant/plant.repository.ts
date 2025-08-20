@@ -97,6 +97,24 @@ export class PlantRepository {
       });
   }
 
+  async changeStatus(id: string): Promise<DiseaseLog> {
+    return await this.prisma.diseaseLog
+      .update({
+        where: {
+          id: id,
+        },
+        data: {
+          overcome: true,
+        },
+      })
+      .catch((error) => {
+        if (error instanceof PrismaClientKnownRequestError) {
+          throw new InternalServerErrorException('Database Error');
+        }
+        throw new InternalServerErrorException('Internal Server Error');
+      });
+  }
+
   async getCount(): Promise<number> {
     return await this.prisma.plant.count();
   }
