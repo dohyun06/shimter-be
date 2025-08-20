@@ -21,7 +21,7 @@ export class AiController {
   })
   @ApiBody({ type: ImageUrlDto })
   @ApiOkResponse({
-    type: 'any',
+    type: ResultDto,
     description: 'Return ai prediction',
   })
   @ApiNotFoundResponse({ description: 'image is not found' })
