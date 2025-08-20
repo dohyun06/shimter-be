@@ -1,14 +1,22 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import {
   ApiBody,
+  ApiConsumes,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { ImageUrlDto } from './dto/imageUrl.dto';
 import { AiService } from './ai.service';
 import { ResultDto } from './dto/result.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import type { Express } from 'express';
 
 @Controller('ai')
 export class AiController {
@@ -19,14 +27,28 @@ export class AiController {
     summary: 'Ai prediction',
     description: 'Ai prediction about image',
   })
-  @ApiBody({ type: ImageUrlDto })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @ApiOkResponse({
     type: ResultDto,
     description: 'Return ai prediction',
   })
   @ApiNotFoundResponse({ description: 'image is not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
-  async getAiResult(@Body() imageUrl: ImageUrlDto): Promise<ResultDto> {
-    return await this.aiService.getAiResult(imageUrl);
+  @UseInterceptors(FileInterceptor('file'))
+  async getAiResult(
+    @UploadedFile() image: Express.Multer.File,
+  ): Promise<ResultDto> {
+    return await this.aiService.getAiResult(image.buffer);
   }
 }

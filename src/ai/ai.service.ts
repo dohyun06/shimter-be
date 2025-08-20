@@ -1,34 +1,24 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ImageUrlDto } from './dto/imageUrl.dto';
 import path from 'path';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import { v4 } from 'uuid';
-import axios from 'axios';
 import { ResultDto } from './dto/result.dto';
 
 @Injectable()
 export class AiService {
-  async getAiResult({ url }: ImageUrlDto): Promise<ResultDto> {
+  async getAiResult(img: Buffer): Promise<ResultDto> {
     let tempFilePath: string = '';
     try {
-      const response = await axios.get(url, {
-        responseType: 'arraybuffer',
-      });
-      const imageBuffer = Buffer.from(response.data, 'binary');
-
       const tempDir = path.resolve(__dirname, './temp');
       if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
       const tempFileName = `${v4()}.jpg`;
       tempFilePath = path.join(tempDir, tempFileName);
-      fs.writeFileSync(tempFilePath, imageBuffer);
+      fs.writeFileSync(tempFilePath, img);
 
       return await new Promise((resolve, reject) => {
         const pythonScriptPath = path.resolve(__dirname, './python/ai.py');
-        const pythonProcess = spawn('python3', [
-          pythonScriptPath,
-          tempFilePath,
-        ]);
+        const pythonProcess = spawn('python', [pythonScriptPath, tempFilePath]);
 
         let result = '';
         let errorResult = '';
