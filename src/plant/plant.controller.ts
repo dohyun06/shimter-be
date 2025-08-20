@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import {
   ApiBody,
   ApiInternalServerErrorResponse,
@@ -10,15 +10,27 @@ import {
 } from '@nestjs/swagger';
 import { PlantDto, PlantIdDto } from './dto/plant.dto';
 import { PlantService } from './plant.service';
-import {
-  CreateDiseaseLogDto,
-  CreateLogDto,
-  LogDto,
-} from 'src/plant/dto/log.dto';
+import { CreateDiseaseLogDto, CreateLogDto } from 'src/plant/dto/log.dto';
+import { PlantListDto, PlantListQueryDto } from './dto/plantList.dto';
 
 @Controller('plant')
 export class PlantController {
   constructor(private readonly plantService: PlantService) {}
+
+  @Get()
+  @ApiOperation({
+    summary: 'Get list of plant',
+    description: 'Get list of plant using cursor and take',
+  })
+  @ApiOkResponse({
+    type: PlantListDto,
+    description: 'Return information of a plant',
+  })
+  @ApiNotFoundResponse({ description: 'Plant id is Not Found' })
+  @ApiInternalServerErrorResponse({ description: 'Internal Server Error' })
+  async getPostList(@Query() query: PlantListQueryDto): Promise<PlantListDto> {
+    return await this.plantService.getPlantList(query);
+  }
 
   @Post()
   @ApiOperation({

@@ -5,13 +5,28 @@ import {
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { DiseaseLog, Log } from '@prisma/client';
+import { DiseaseLog, Log, Plant } from '@prisma/client';
 import { PlantDto, PlantIdDto } from './dto/plant.dto';
 import { CreateDiseaseLogDto } from './dto/log.dto';
+import { PlantListQueryDto } from './dto/plantList.dto';
 
 @Injectable()
 export class PlantRepository {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getPlantList({
+    skip,
+    take,
+  }: PlantListQueryDto): Promise<(Plant & { logs; diseaseLogs })[]> {
+    return await this.prisma.plant.findMany({
+      skip: skip,
+      take: take,
+      include: {
+        logs: true,
+        diseaseLogs: true,
+      },
+    });
+  }
 
   async createPlant(): Promise<PlantIdDto> {
     return await this.prisma.plant
@@ -80,5 +95,9 @@ export class PlantRepository {
         }
         throw new InternalServerErrorException('Internal Server Error');
       });
+  }
+
+  async getCount(): Promise<number> {
+    return await this.prisma.plant.count();
   }
 }

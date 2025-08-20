@@ -1,19 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsNumber } from 'class-validator';
-import { PostDto } from './post.dto';
 import { Type } from 'class-transformer';
+import { PlantDto } from './plant.dto';
 
-export class PostListDto {
+export class PlantListDto {
   @IsArray()
-  @ApiProperty({ type: [PostDto] })
-  posts: PostDto[];
+  @ApiProperty({ type: [PlantDto] })
+  plants: PlantDto[];
 
   @IsNumber()
   @ApiProperty({ example: 1 })
   total: number;
 }
 
-export class PostListQueryDto {
+export class PlantListQueryDto {
   @Type(() => Number)
   @IsNumber()
   @ApiProperty({ example: 1 })

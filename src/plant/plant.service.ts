@@ -2,10 +2,25 @@ import { Injectable } from '@nestjs/common';
 import { PlantDto, PlantIdDto } from './dto/plant.dto';
 import { PlantRepository } from './plant.repository';
 import { CreateDiseaseLogDto, CreateLogDto } from 'src/plant/dto/log.dto';
+import { PlantListQueryDto } from './dto/plantList.dto';
 
 @Injectable()
 export class PlantService {
   constructor(private readonly plantRepository: PlantRepository) {}
+
+  async getPlantList(query: PlantListQueryDto) {
+    const plants = (await this.plantRepository.getPlantList(query)).map(
+      (plant) => {
+        return {
+          id: plant.id,
+          logs: plant.logs,
+          diseaseLogs: plant.diseaseLogs,
+        };
+      },
+    );
+    const total = await this.plantRepository.getCount();
+    return { plants: plants, total: total };
+  }
 
   async createPlant(): Promise<PlantIdDto> {
     return await this.plantRepository.createPlant();
